@@ -1,18 +1,50 @@
 pool:
   vmImage: 'ubuntu-latest'
  
-jobs:
-- job: Firstjob
-  displayName: Build
-  timeoutInMinutes: 10
-  steps:
-  - task: Bash@3
-    displayName: First echo
-    inputs:
-      targetType: 'inline'
-      script: 'echo "The First job"'
- 
-- job: Secondjob
-  displayName: deploy
-  steps:
-  - bash: echo "Our Second Pipeline"
+stages:
+- stage: First
+  displayName: First Stage
+  jobs:
+  - job: Firstjob
+    displayName: Build
+    timeoutInMinutes: 10
+    steps:
+    - task: Bash@3
+      displayName: First echo
+      inputs:
+        targetType: 'inline'
+        script: 'echo "The First job"'
+- stage: Second
+  displayName: Second Stage
+  dependsOn: ''
+  jobs:  
+  - job: Secondjob
+    displayName: deploy
+    steps:
+    - bash: echo "Our Second Pipeline"
+- stage: Third
+  displayName: Third Stage
+  dependsOn: Second
+  jobs:  
+  - job: Thirdjob
+    displayName: Third
+    steps:
+    - bash: echo "Our Third Pipeline"
+- stage: Fourth
+  displayName: Fourth Stage
+  dependsOn: Second
+  jobs:  
+  - job: Fourthjob
+    displayName: Fourth
+    steps:
+    - bash: echo "Our Fourth Pipeline"
+- stage: Fifth
+  displayName: Fifth Stage
+  dependsOn: 
+  - Third
+  - Fourth
+  jobs:  
+  - job: Fifthjob
+    displayName: Fifth
+    steps:
+    - bash: echo "Our Fifth Pipeline"
