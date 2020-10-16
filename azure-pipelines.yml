@@ -63,7 +63,7 @@ stages:
   - Third
   - Fourth
   - OnlyMaster
-  condition: always()
+  #condition: always()
   jobs:  
   - job: FifthJobAlways
     displayName: FuncRegressionAfterSanity
