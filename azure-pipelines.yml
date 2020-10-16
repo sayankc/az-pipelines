@@ -13,10 +13,10 @@ stages:
     timeoutInMinutes: 10
     steps:
     - task: Bash@3
-      displayName: First echo
+      displayName: First echo-in Dev branch
       inputs:
         targetType: 'inline'
-        script: 'echo "The First job"'
+        script: 'echo "The First job in dev branch"'
 - stage: Second
   displayName: Second Stage
   dependsOn: 'First'
