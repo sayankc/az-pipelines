@@ -45,6 +45,6 @@ stages:
   - Fourth
   jobs:  
   - job: Fifthjob
-    displayName: FuncRegressionAfterDeploy
+    displayName: FuncRegressionAfterSanity
     steps:
     - bash: echo "Our Fifth Pipeline"
