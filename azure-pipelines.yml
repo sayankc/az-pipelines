@@ -16,7 +16,7 @@ stages:
       displayName: First echo-in Dev branch
       inputs:
         targetType: 'inline'
-        script: 'echo "The First job in dev branch"'
+        script: 'echo "The First job in dev branch v2"'
 - stage: Second
   displayName: Second Stage
   dependsOn: 'First'
