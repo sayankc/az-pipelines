@@ -16,7 +16,7 @@ stages:
         script: 'echo "The First job"'
 - stage: Second
   displayName: Second Stage
-  dependsOn: ''
+  dependsOn: 'First'
   jobs:  
   - job: Secondjob
     displayName: deploy
