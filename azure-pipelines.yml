@@ -1,0 +1,18 @@
+pool:
+  vmImage: 'ubuntu-latest'
+ 
+jobs:
+- job: Firstjob
+  displayName: Build
+  timeoutInMinutes: 10
+  steps:
+  - task: Bash@3
+    displayName: First echo
+    inputs:
+      targetType: 'inline'
+      script: 'echo "The First job"'
+ 
+- job: Secondjob
+  displayName: deploy
+  steps:
+  - bash: echo "Our Second Pipeline"
