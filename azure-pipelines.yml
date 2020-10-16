@@ -3,6 +3,9 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
+
+variables:
+  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
  
 stages:
 - stage: First
@@ -33,21 +36,35 @@ stages:
     displayName: FuncSanityAfterDeploy
     steps:
     - bash: echo "Our Third Pipeline"
-- stage: Fourth
-  displayName: Fourth Stage
+- stage: Fourth-Always
+  displayName: Fourth Stage-Always
   dependsOn: Second
+  condition: always() 
   jobs:  
-  - job: Fourthjob
+  - job: FourthJobAlways
     displayName: StabilitySanityAfterDeploy
     steps:
     - bash: echo "Our Fourth Pipeline"
-- stage: Fifth
-  displayName: Fifth Stage
+
+- stage: OnlyMaster
+  displayName: OnlyMaster Stage
+  dependsOn: Second
+  condition: and(succeeded(), eq(variables.isMain, true))
+  jobs:  
+  - job: OnlyMaster
+    displayName: StabilitySanityAfterDeploy
+    steps:
+    - bash: echo "Our OnlyMaster Pipeline"
+    - bash: echo "isMain-"$(isMain)
+
+- stage: Fifth-Always
+  displayName: Fifth Stage-Always
   dependsOn: 
   - Third
   - Fourth
+  condition: always()
   jobs:  
-  - job: Fifthjob
+  - job: FifthJobAlways
     displayName: FuncRegressionAfterSanity
     steps:
     - bash: echo "Our Fifth Pipeline"
