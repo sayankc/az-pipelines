@@ -52,7 +52,7 @@ stages:
   condition: and(succeeded(), eq(variables.isMain, true))
   jobs:  
   - job: OnlyMaster
-    displayName: StabilitySanityAfterDeploy
+    displayName: Sanity4Master
     steps:
     - bash: echo "Our OnlyMaster Pipeline"
     - bash: echo "isMain-"$(isMain)
