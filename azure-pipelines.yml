@@ -39,12 +39,12 @@ stages:
     steps:
     - bash: echo "Our Fourth Pipeline"
 - stage: Fifth
-  displayName: FuncRegressionAfterDeploy
+  displayName: Fifth Stage
   dependsOn: 
   - Third
   - Fourth
   jobs:  
   - job: Fifthjob
-    displayName: Fifth
+    displayName: FuncRegressionAfterDeploy
     steps:
     - bash: echo "Our Fifth Pipeline"
