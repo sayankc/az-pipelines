@@ -21,7 +21,7 @@ stages:
         targetType: 'inline'
         script: |
           echo "The First job in dev branch";
-          echo variables['Build.Reason']
+          echo $[variables['Build.Reason']]
 - stage: Second
   displayName: Second Stage
   dependsOn: 'First'
