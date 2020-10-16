@@ -6,7 +6,7 @@ stages:
   displayName: First Stage
   jobs:
   - job: Firstjob
-    displayName: Build
+    displayName: BuildFirst
     timeoutInMinutes: 10
     steps:
     - task: Bash@3
@@ -19,7 +19,7 @@ stages:
   dependsOn: 'First'
   jobs:  
   - job: Secondjob
-    displayName: deploy
+    displayName: DeployAfterBuild
     steps:
     - bash: echo "Our Second Pipeline"
 - stage: Third
@@ -27,7 +27,7 @@ stages:
   dependsOn: Second
   jobs:  
   - job: Thirdjob
-    displayName: Third
+    displayName: FuncSanityAfterDeploy
     steps:
     - bash: echo "Our Third Pipeline"
 - stage: Fourth
@@ -35,11 +35,11 @@ stages:
   dependsOn: Second
   jobs:  
   - job: Fourthjob
-    displayName: Fourth
+    displayName: StabilitySanityAfterDeploy
     steps:
     - bash: echo "Our Fourth Pipeline"
 - stage: Fifth
-  displayName: Fifth Stage
+  displayName: FuncRegressionAfterDeploy
   dependsOn: 
   - Third
   - Fourth
