@@ -36,7 +36,7 @@ stages:
     displayName: FuncSanityAfterDeploy
     steps:
     - bash: echo "Our Third Pipeline"
-- stage: Fourth_Always
+- stage: Fourth
   displayName: Fourth Stage Always
   dependsOn: Second
   condition: always() 
@@ -57,11 +57,12 @@ stages:
     - bash: echo "Our OnlyMaster Pipeline"
     - bash: echo "isMain-"$(isMain)
 
-- stage: Fifth_Always
+- stage: Fifth
   displayName: Fifth Stage Always
   dependsOn: 
   - Third
   - Fourth
+  - OnlyMaster
   condition: always()
   jobs:  
   - job: FifthJobAlways
