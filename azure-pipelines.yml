@@ -14,6 +14,8 @@ stages:
   - job: Firstjob
     displayName: BuildFirst
     timeoutInMinutes: 10
+    variables:
+      isStage1: 'isStage1'
     steps:
     - task: Bash@3
       displayName: First echo-Master branch
@@ -22,6 +24,7 @@ stages:
         script: |
           echo "The First job in Master branch";
           echo $(Build.Reason)
+          echo "isStage1-${isStage1}" 
 - stage: Second
   displayName: Second Stage
   dependsOn: 'First'
@@ -45,14 +48,19 @@ stages:
   jobs:  
   - job: FourthStageAlwaysJob
     displayName: StabilitySanityAfterDeploy-Always
+    variables:
+      isAlways: 'true'
     steps:
     - bash: echo "Our Fourth Pipeline-StabilitySanityAfterDeployIf2nd"
+    - bash: echo "isAlways-"$(isAlways)
+    - bash: echo "isStage1-"$(isStage1)
   - job: FourthStageDependJob
     dependsOn: FourthStageAlwaysJob
     condition: succeeded('FourthStageAlwaysJob')
     displayName: StabilitySanityAfterDeploy-Depends
     steps:
     - bash: echo "Our Fourth Pipeline-StabilitySanityAfterDeployAlways"
+    - bash: echo "isAlways-"$(isAlways)
 
 - stage: OnlyMaster
   displayName: OnlyMaster Stage
