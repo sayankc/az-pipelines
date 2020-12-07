@@ -26,6 +26,7 @@ stages:
           echo $(Build.Reason)
           echo "isStage1-"$(isStage1)
           echo "isGlobal-"$(isGlobal)
+          echo "isFourth-"$(isFourth)
 - stage: Second
   displayName: Second Stage
   dependsOn: 'First'
