@@ -24,7 +24,7 @@ stages:
         script: |
           echo "The First job in Master branch";
           echo $(Build.Reason)
-          echo "isStage1-${isStage1}" 
+          echo "isStage1-"$(isStage1)
 - stage: Second
   displayName: Second Stage
   dependsOn: 'First'
