@@ -54,8 +54,11 @@ stages:
     variables:
       isAlways: 'true'
     steps:
-    - bash: echo "Our Fourth Pipeline-StabilitySanityAfterDeployIf2nd"
-    - bash: echo "isAlways-"$(isAlways);echo "isStage1-"$(isStage1); echo "isFourth-"$(isFourth);echo "isGlobal-"$(isGlobal)
+    - bash: echo "Our Fourth Pipeline-StabilitySanityAfterDeploy-Always"
+    - bash: echo "isAlways-"$(isAlways)
+    - bash: echo "isStage1-"$(isStage1)
+    - bash: echo "isFourth-"$(isFourth)
+    - bash: echo "isGlobal-"$(isGlobal)
     - bash: export vAlways="vAlways";
     - bash: echo "vAlways-"$(vAlways)
   - job: FourthStageDependJob
@@ -63,8 +66,11 @@ stages:
     condition: succeeded('FourthStageAlwaysJob')
     displayName: StabilitySanityAfterDeploy-Depends
     steps:
-    - bash: echo "Our Fourth Pipeline-StabilitySanityAfterDeployAlways"
-    - bash: echo "isAlways-"$(isAlways);echo "isStage1-"$(isStage1); echo "isFourth-"$(isFourth);echo "isGlobal-"$(isGlobal)
+    - bash: echo "Our Fourth Pipeline-StabilitySanityAfterDeploy-Depends"
+    - bash: echo "isAlways-"$(isAlways)
+    - bash: echo "isStage1-"$(isStage1)
+    - bash: echo "isFourth-"$(isFourth)
+    - bash: echo "isGlobal-"$(isGlobal)
     - bash: echo "vAlways-"$(vAlways)
 
 - stage: OnlyMaster
