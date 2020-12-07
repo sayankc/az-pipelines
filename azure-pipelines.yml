@@ -61,7 +61,7 @@ stages:
     - bash: echo "isFourth-"$(isFourth)
     - bash: echo "isGlobal-"$(isGlobal)
     - bash: export vAlways="vAlways";
-    - bash: echo "vAlways-"$(vAlways)
+    - bash: echo "vAlways-"$vAlways
   - job: FourthStageDependJob
     dependsOn: FourthStageAlwaysJob
     condition: succeeded('FourthStageAlwaysJob')
@@ -72,7 +72,7 @@ stages:
     - bash: echo "isStage1-"$(isStage1)
     - bash: echo "isFourth-"$(isFourth)
     - bash: echo "isGlobal-"$(isGlobal)
-    - bash: echo "vAlways-"$(vAlways)
+    - bash: echo "vAlways-"$vAlways
 
 - stage: OnlyMaster
   displayName: OnlyMaster Stage
