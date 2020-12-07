@@ -44,13 +44,13 @@ stages:
   condition: succeeded('Second')
   jobs:  
   - job: FourthStageAlwaysJob
-    displayName: StabilitySanityAfterDeployIf2nd
+    displayName: StabilitySanityAfterDeploy-Always
     steps:
     - bash: echo "Our Fourth Pipeline-StabilitySanityAfterDeployIf2nd"
   - job: FourthStageDependJob
     dependsOn: FourthStageAlwaysJob
     condition: succeeded('FourthStageAlwaysJob')
-    displayName: StabilitySanityAfterDeployAlways
+    displayName: StabilitySanityAfterDeploy-Depends
     steps:
     - bash: echo "Our Fourth Pipeline-StabilitySanityAfterDeployAlways"
 
