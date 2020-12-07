@@ -16,11 +16,11 @@ stages:
     timeoutInMinutes: 10
     steps:
     - task: Bash@3
-      displayName: First echo-Dev branch
+      displayName: First echo-Master branch
       inputs:
         targetType: 'inline'
         script: |
-          echo "The First job in dev branch";
+          echo "The First job in Master branch";
           echo $(Build.Reason)
 - stage: Second
   displayName: Second Stage
