@@ -41,7 +41,7 @@ stages:
 - stage: Fourth
   displayName: Fourth Stage Always
   dependsOn: Second
-  condition: always() 
+  condition: succeeded() 
   jobs:  
   - job: FourthJobAlways
     displayName: StabilitySanityAfterDeploy
