@@ -29,7 +29,7 @@ stages:
   - job: Secondjob
     displayName: DeployAfterBuild
     steps:
-    - bash: echo "Our Second Pipeline";exit 1
+    - bash: echo "Our Second Pipeline"
 - stage: Third
   displayName: Third Stage
   dependsOn: Second
