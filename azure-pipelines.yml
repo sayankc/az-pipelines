@@ -41,6 +41,7 @@ stages:
 - stage: Fourth
   displayName: Fourth Stage Always
   dependsOn: Second
+  condition: succeeded()
   jobs:  
   - job: FourthJobAlways
     dependsOn: Secondjob
