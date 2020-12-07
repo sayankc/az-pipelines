@@ -43,6 +43,8 @@ stages:
   dependsOn: Second
   jobs:  
   - job: FourthJobAlways
+    dependsOn: Secondjob
+    condition: succeeded()
     displayName: StabilitySanityAfterDeploy
     steps:
     - bash: echo "Our Fourth Pipeline"
