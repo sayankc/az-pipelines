@@ -7,6 +7,7 @@ pool:
 variables:
   isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
   isGlobal: 'true'
+
 stages:
 - stage: First
   displayName: First Stage
@@ -29,12 +30,14 @@ stages:
           echo "isFourth-"$(isFourth)
 - stage: Second
   displayName: Second Stage
+  variables:
+  - group: vg1
   dependsOn: 'First'
   jobs:  
   - job: Secondjob
     displayName: DeployAfterBuild
     steps:
-    - bash: echo "Our Second Pipeline"
+    - bash: echo "Our Second Pipeline" ; echo "vg1-"$(v1)
 - stage: Third
   displayName: Third Stage
   dependsOn: Second
