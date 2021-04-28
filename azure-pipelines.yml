@@ -10,7 +10,7 @@ variables:
 
 stages:
 - stage: First
-  displayName: Build Stage
+  displayName: Build in Pipeline
   jobs:
   - job: Firstjob
     displayName: BuildFirst
@@ -39,7 +39,7 @@ stages:
     steps:
     - bash: echo "Our Second Pipeline" ; echo "vg1-"$(v1)
 - stage: Third
-  displayName: SanityCheck Stage
+  displayName: SanityCheck in Env1
   dependsOn: Second
   jobs:  
   - job: Thirdjob
@@ -52,7 +52,7 @@ stages:
     - bash: echo "Our Early Performance Sanity"
 
 - stage: Fourth
-  displayName: 'Deploy in PT env Stage'
+  displayName: 'Deploy in PT env'
   dependsOn: Third
   condition: and(succeeded(), eq(variables.isMain, true))
   jobs:  
@@ -62,7 +62,7 @@ stages:
     - bash: echo "Our Deploy4Performance Pipeline"
     - bash: echo "isMain-"$(isMain)
 - stage: Fifth
-  displayName: 'Regression Stage'
+  displayName: 'Regression Execution - Env1'
   dependsOn: Third
   condition: succeeded('Third')
   variables:
@@ -94,7 +94,7 @@ stages:
 
 
 - stage: Sixth
-  displayName: 'Provision Infra n Execute PT Stage'
+  displayName: 'Provision Agent n Execute PT'
   dependsOn: Fourth
   #condition: always()
   jobs:  
@@ -116,7 +116,7 @@ stages:
     - bash: echo "Our Remove Provisioned Load Agent"
 
 - stage: Seventh
-  displayName: 'Deploy in Higher Env Stage'
+  displayName: 'Deploy in Higher Env'
   dependsOn: 
   - Sixth
   - Fifth
