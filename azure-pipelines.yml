@@ -116,7 +116,7 @@ stages:
     - bash: echo "Our Remove Provisioned Load Agent"
 
 - stage: Seventh
-  displayName: 'Deploy in Higher Env'
+  displayName: 'Deploy to Higher Env'
   dependsOn: 
   - Sixth
   - Fifth
