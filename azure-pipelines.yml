@@ -10,7 +10,7 @@ variables:
 
 stages:
 - stage: First
-  displayName: Build App
+  displayName: Build Stage
   jobs:
   - job: Firstjob
     displayName: BuildFirst
@@ -29,7 +29,7 @@ stages:
           echo "isGlobal-"$(isGlobal)
           echo "isFourth-"$(isFourth)
 - stage: Second
-  displayName: Second Stage
+  displayName: Deploy to Env1
   variables:
   - group: vg1
   dependsOn: 'First'
@@ -39,16 +39,20 @@ stages:
     steps:
     - bash: echo "Our Second Pipeline" ; echo "vg1-"$(v1)
 - stage: Third
-  displayName: Third Stage
+  displayName: SanityCheck Stage
   dependsOn: Second
   jobs:  
   - job: Thirdjob
     displayName: FuncSanityAfterDeploy
     steps:
     - bash: echo "Our Third Pipeline"
+  - job: PerfJob
+    displayName: Early Performance Sanity
+    steps:
+    - bash: echo "Our Early Performance Sanity"
 
 - stage: Fourth
-  displayName: 'Deploy in PT env'
+  displayName: 'Deploy in PT env Stage'
   dependsOn: Third
   condition: and(succeeded(), eq(variables.isMain, true))
   jobs:  
@@ -90,7 +94,7 @@ stages:
 
 
 - stage: Sixth
-  displayName: 'Provision Infra n Execute PT'
+  displayName: 'Provision Infra n Execute PT Stage'
   dependsOn: Fourth
   #condition: always()
   jobs:  
@@ -112,7 +116,7 @@ stages:
     - bash: echo "Our Remove Provisioned Load Agent"
 
 - stage: Seventh
-  displayName: 'Deploy in Next Env'
+  displayName: 'Deploy in Higher Env Stage'
   dependsOn: 
   - Sixth
   - Fifth
