@@ -10,7 +10,7 @@ variables:
 
 stages:
 - stage: First
-  displayName: First Stage
+  displayName: Build App
   jobs:
   - job: Firstjob
     displayName: BuildFirst
@@ -35,7 +35,7 @@ stages:
   dependsOn: 'First'
   jobs:  
   - job: Secondjob
-    displayName: DeployAfterBuild
+    displayName: Deploy2Test
     steps:
     - bash: echo "Our Second Pipeline" ; echo "vg1-"$(v1)
 - stage: Third
@@ -46,15 +46,26 @@ stages:
     displayName: FuncSanityAfterDeploy
     steps:
     - bash: echo "Our Third Pipeline"
+
 - stage: Fourth
-  displayName: Fourth Stage Always
-  dependsOn: Second
-  condition: succeeded('Second')
+  displayName: 'Deploy in PT env'
+  dependsOn: Third
+  condition: and(succeeded(), eq(variables.isMain, true))
+  jobs:  
+  - job: Deploy4Performance
+    displayName: Deploy4Performance
+    steps:
+    - bash: echo "Our Deploy4Performance Pipeline"
+    - bash: echo "isMain-"$(isMain)
+- stage: Fifth
+  displayName: 'Regression Stage'
+  dependsOn: Third
+  condition: succeeded('Third')
   variables:
     isFourth: 'true'
   jobs:
-  - job: FourthStageAlwaysJob
-    displayName: StabilitySanityAfterDeploy-Always
+  - job: RegressionSuiteJob
+    displayName: RegressionSuite1
     variables:
       isAlways: 'true'
     steps:
@@ -65,10 +76,10 @@ stages:
     - bash: echo "isGlobal-"$(isGlobal)
     - bash: export vAlways="vAlways";
     - bash: echo "vAlways-"$vAlways
-  - job: FourthStageDependJob
-    dependsOn: FourthStageAlwaysJob
-    condition: succeeded('FourthStageAlwaysJob')
-    displayName: StabilitySanityAfterDeploy-Depends
+  - job: RegressionSuite2
+    dependsOn: RegressionSuiteJob
+    condition: succeeded('RegressionSuiteJob')
+    displayName: RegressionSuite2
     steps:
     - bash: echo "Our Fourth Pipeline-StabilitySanityAfterDeploy-Depends"
     - bash: echo "isAlways-"$(isAlways)
@@ -77,26 +88,38 @@ stages:
     - bash: echo "isGlobal-"$(isGlobal)
     - bash: echo "vAlways-"$vAlways
 
-- stage: OnlyMaster
-  displayName: OnlyMaster Stage
-  dependsOn: Second
-  condition: and(succeeded(), eq(variables.isMain, true))
-  jobs:  
-  - job: OnlyMaster
-    displayName: Sanity4Master
-    steps:
-    - bash: echo "Our OnlyMaster Pipeline"
-    - bash: echo "isMain-"$(isMain)
 
-- stage: Fifth
-  displayName: Fifth Stage Always
-  dependsOn: 
-  - Third
-  - Fourth
-  - OnlyMaster
+- stage: Sixth
+  displayName: 'Provision Infra n Execute PT'
+  dependsOn: Fourth
   #condition: always()
   jobs:  
-  - job: FifthJobAlways
-    displayName: FuncRegressionAfterSanity
+  - job: 'ProvisionLoadAgent'
+    displayName: 'Provision Load Agent'
     steps:
-    - bash: echo "Our Fifth Pipeline"
+    - bash: echo "Our Provision Infra Pipeline"
+  - job: 'ExecuteTest'
+    displayName: 'Execute Test'
+    steps:
+    - bash: echo "Our Provision Infra Pipeline"
+  - job: 'PublishResult'
+    displayName: 'Publish Result'
+    steps:
+    - bash: echo "Our Provision Infra Pipeline"
+  - job: 'RemoveLoadAgent'
+    displayName: 'Remove Provisioned Load Agent'
+    steps:
+    - bash: echo "Our Remove Provisioned Load Agent"
+
+- stage: Seventh
+  displayName: 'Deploy in Next Env'
+  dependsOn: 
+  - Sixth
+  - Fifth
+  condition: and(succeeded(), eq(variables.isMain, true))
+  jobs:  
+  - job: DeployNextEnv
+    displayName: 'Deploy to Next Env'
+    steps:
+    - bash: echo "Our Deploy4Performance Pipeline"
+    - bash: echo "isMain-"$(isMain)
